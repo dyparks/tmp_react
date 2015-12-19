@@ -25,7 +25,7 @@ var InsightContainer = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentWillMount: function() {
     var Strategy = Parse.Object.extend("strategies");
     var query = new Parse.Query(Strategy);
     var here = this;
@@ -34,11 +34,11 @@ var InsightContainer = React.createClass({
         for (var i = 0; i < results.length; i++) {
           var data = {};
           var object = results[i];
-          data[object.get('a_name')] = object.get('a_size');
-          data[object.get('b_name')] = object.get('b_size');
+          data[object.get('a')] = object.get('a_size');
+          data[object.get('b')] = object.get('b_size');
         } 
         here.setState({
-          SegmentData: data
+          SegmentData: [data]
         })
       },
       error: function(error) {
