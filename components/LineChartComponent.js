@@ -33,7 +33,7 @@ function sinAndCos() {
   ];
 }
 
-function drawLineChart (elementParent) {
+function drawLineChart (elementParent, data) {
   nv.addGraph(function() {
     var line_chart = nv.models.lineChart()
                   .margin({left: 100})  //Adjust chart margins to give the x-axis some breathing room.
@@ -52,7 +52,7 @@ function drawLineChart (elementParent) {
         .tickFormat(d3.format('.02f'));
 
     /* Done setting the chart up? Time to render it!*/
-    var myData = sinAndCos();   //You need data...
+    var myData = data;   //You need data...
 
     d3.select('#line-chart svg')    //Select the <svg> element you want to render the chart in.
         .datum(myData)         //Populate the <svg> element with chart data...
@@ -66,7 +66,7 @@ function drawLineChart (elementParent) {
 
 var LineChart = React.createClass  ({
   componentDidMount: function() {
-    drawLineChart('line-chart');
+    drawLineChart('line-chart', this.props.data);
   },
   render: function() {
     return (

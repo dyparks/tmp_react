@@ -38,15 +38,15 @@ function exampleData() {
     ];
 }
 
-function drawPieChart (elementParent) {
-  nv.addGraph(function() {
-    var pieChart = nv.models.pieChart()
+var pieChart = nv.models.pieChart()
       .x(function(d) { return d.label })
       .y(function(d) { return d.value })
       .showLabels(false);
 
+function drawPieChart (elementParent, data) {
+  nv.addGraph(function() {
     d3.select("#pie-chart svg")
-        .datum(exampleData())
+        .datum(data)
         .transition().duration(350)
         .call(pieChart);
 
@@ -62,10 +62,10 @@ function updatePieChart (elementParent, data) {
 
 var PieChart = React.createClass  ({
   componentDidMount: function() {
-    drawPieChart('pie-chart');
+    drawPieChart('pie-chart', this.props.data);
   },
   componentDidUpdate: function() {
-    updatePieChart('pie-chart');
+    updatePieChart('pie-chart', this.props.data);
   },
   render: function() {
     return (
