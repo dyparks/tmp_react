@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var nv = require('nvd3');
 
 function exampleData() {
@@ -49,29 +50,26 @@ function drawPieChart (elementParent, data) {
         .datum(data)
         .transition().duration(350)
         .call(pieChart);
-
     return pieChart;
   });
 }
 
 function updatePieChart (elementParent, data) {
-  d3.select('#' + elementParent + ' svg')
+  d3.select(ReactDOM.findDOMNode())
     .datum(data)
     .call(pieChart);
 }
 
 var PieChart = React.createClass  ({
   componentDidMount: function() {
-    drawPieChart('pie-chart', this.props.data);
+    drawPieChart(ReactDOM.findDOMNode(this), this.props.data);
   },
   componentDidUpdate: function() {
     updatePieChart('pie-chart', this.props.data);
   },
   render: function() {
     return (
-      <div id='pie-chart'>
-        <svg height='400px'></svg>
-      </div>
+      <svg height='400px'></svg>
     );
   }
 });
