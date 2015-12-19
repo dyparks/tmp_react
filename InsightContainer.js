@@ -31,15 +31,20 @@ var InsightContainer = React.createClass({
     var here = this;
     query.find({
       success: function(results) {
+        data = [];
         for (var i = 0; i < results.length; i++) {
-          var data = {};
           var object = results[i];
-          data[object.get('a')] = object.get('a_size');
-          data[object.get('b')] = object.get('b_size');
+          entry_a = {}
+          entry_b = {}
+          entry_a["label"] = object.get('a');
+          entry_a["value"] = object.get('a_size');
+          entry_b["label"] = object.get('b');
+          entry_b["value"] = object.get('b_size');
+          data.push(entry_a);
+          data.push(entry_b);
         }
-        console.log(data)
         here.setState({
-          SegmentData: [data]
+          SegmentData: data
         })
       },
       error: function(error) {

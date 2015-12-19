@@ -55,7 +55,7 @@ function drawPieChart (node, data) {
 }
 
 function updatePieChart (node, data) {
-  d3.select(ReactDOM.findDOMNode())
+  d3.select(node)
     .datum(data)
     .call(pieChart);
 }
