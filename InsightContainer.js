@@ -21,7 +21,7 @@ var InsightContainer = React.createClass({
       <Grid>
         <Row className="show-grid">
           <Col xs={6} md={4}><h3>Summary</h3><p>Some summary text here.</p></Col>
-          <Col xs={6} md={4}><PieChart /></Col>
+          <Col xs={6} md={4}><PieChart ref='p1'/></Col>
           <Col xs={6} md={4}><LineChart /></Col>
         </Row>
       </Grid>

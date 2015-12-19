@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var nv = require('nvd3');
 
 function exampleData() {
@@ -38,14 +39,15 @@ function exampleData() {
     ];
 }
 
-function drawPieChart (elementParent) {
+function drawPieChart (node) {
+  d3.select(ReactDOM.findDOMNode()).append('h1').text("Hello World");
   nv.addGraph(function() {
     var pieChart = nv.models.pieChart()
       .x(function(d) { return d.label })
       .y(function(d) { return d.value })
       .showLabels(false);
 
-    d3.select("#pie-chart svg")
+    d3.select(node)
         .datum(exampleData())
         .transition().duration(350)
         .call(pieChart);
@@ -55,23 +57,21 @@ function drawPieChart (elementParent) {
 }
 
 function updatePieChart (elementParent, data) {
-  d3.select('#' + elementParent + ' svg')
+  d3.select(ReactDOM.findDOMNode())
     .datum(data)
     .call(pieChart);
 }
 
 var PieChart = React.createClass  ({
   componentDidMount: function() {
-    drawPieChart('pie-chart');
+    drawPieChart(ReactDOM.findDOMNode(this));
   },
   componentDidUpdate: function() {
     updatePieChart('pie-chart');
   },
   render: function() {
     return (
-      <div id='pie-chart'>
-        <svg height='400px'></svg>
-      </div>
+      <svg height='400px'></svg>
     );
   }
 });

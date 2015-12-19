@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var nv = require('nvd3');
 
 function sinAndCos() {
@@ -33,7 +34,7 @@ function sinAndCos() {
   ];
 }
 
-function drawLineChart (elementParent) {
+function drawLineChart (node) {
   nv.addGraph(function() {
     var line_chart = nv.models.lineChart()
                   .margin({left: 100})  //Adjust chart margins to give the x-axis some breathing room.
@@ -54,7 +55,7 @@ function drawLineChart (elementParent) {
     /* Done setting the chart up? Time to render it!*/
     var myData = sinAndCos();   //You need data...
 
-    d3.select('#line-chart svg')    //Select the <svg> element you want to render the chart in.
+    d3.select(node)    //Select the <svg> element you want to render the chart in.
         .datum(myData)         //Populate the <svg> element with chart data...
         .call(line_chart);          //Finally, render the chart!
 
@@ -66,13 +67,11 @@ function drawLineChart (elementParent) {
 
 var LineChart = React.createClass  ({
   componentDidMount: function() {
-    drawLineChart('line-chart');
+    drawLineChart(ReactDOM.findDOMNode(this));
   },
   render: function() {
     return (
-      <div id='line-chart'>
-        <svg height='400px'></svg>
-      </div>
+      <svg height='400px'></svg>
     );
   }
 });

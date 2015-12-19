@@ -38,7 +38,7 @@ var InsightContainer = React.createClass({
         React.createElement(
           Col,
           { xs: 6, md: 4 },
-          React.createElement(PieChart, null)
+          React.createElement(PieChart, { ref: 'p1' })
         ),
         React.createElement(
           Col,
@@ -54,6 +54,7 @@ ReactDOM.render(React.createElement(InsightContainer, null), document.getElement
 
 },{"./components/LineChartComponent.js":2,"./components/PieChartComponent.js":3,"react":406,"react-bootstrap":76,"react-dom":250}],2:[function(require,module,exports){
 var React = require('react');
+var ReactDOM = require('react-dom');
 var nv = require('nvd3');
 
 function sinAndCos() {
@@ -85,7 +86,7 @@ function sinAndCos() {
   }];
 }
 
-function drawLineChart(elementParent) {
+function drawLineChart(node) {
   nv.addGraph(function () {
     var line_chart = nv.models.lineChart().margin({ left: 100 }) //Adjust chart margins to give the x-axis some breathing room.
     .useInteractiveGuideline(true) //We want nice looking tooltips and a guideline!
@@ -103,7 +104,7 @@ function drawLineChart(elementParent) {
     /* Done setting the chart up? Time to render it!*/
     var myData = sinAndCos(); //You need data...
 
-    d3.select('#line-chart svg') //Select the <svg> element you want to render the chart in.
+    d3.select(node) //Select the <svg> element you want to render the chart in.
     .datum(myData) //Populate the <svg> element with chart data...
     .call(line_chart); //Finally, render the chart!
 
@@ -119,21 +120,18 @@ var LineChart = React.createClass({
   displayName: 'LineChart',
 
   componentDidMount: function () {
-    drawLineChart('line-chart');
+    drawLineChart(ReactDOM.findDOMNode(this));
   },
   render: function () {
-    return React.createElement(
-      'div',
-      { id: 'line-chart' },
-      React.createElement('svg', { height: '400px' })
-    );
+    return React.createElement('svg', { height: '400px' });
   }
 });
 
 module.exports = LineChart;
 
-},{"nvd3":4,"react":406}],3:[function(require,module,exports){
+},{"nvd3":4,"react":406,"react-dom":250}],3:[function(require,module,exports){
 var React = require('react');
+var ReactDOM = require('react-dom');
 var nv = require('nvd3');
 
 function exampleData() {
@@ -164,7 +162,8 @@ function exampleData() {
   }];
 }
 
-function drawPieChart(elementParent) {
+function drawPieChart(node) {
+  d3.select(ReactDOM.findDOMNode()).append('h1').text("Hello World");
   nv.addGraph(function () {
     var pieChart = nv.models.pieChart().x(function (d) {
       return d.label;
@@ -172,37 +171,33 @@ function drawPieChart(elementParent) {
       return d.value;
     }).showLabels(false);
 
-    d3.select("#pie-chart svg").datum(exampleData()).transition().duration(350).call(pieChart);
+    d3.select(node).datum(exampleData()).transition().duration(350).call(pieChart);
 
     return pieChart;
   });
 }
 
 function updatePieChart(elementParent, data) {
-  d3.select('#' + elementParent + ' svg').datum(data).call(pieChart);
+  d3.select(ReactDOM.findDOMNode()).datum(data).call(pieChart);
 }
 
 var PieChart = React.createClass({
   displayName: 'PieChart',
 
   componentDidMount: function () {
-    drawPieChart('pie-chart');
+    drawPieChart(ReactDOM.findDOMNode(this));
   },
   componentDidUpdate: function () {
     updatePieChart('pie-chart');
   },
   render: function () {
-    return React.createElement(
-      'div',
-      { id: 'pie-chart' },
-      React.createElement('svg', { height: '400px' })
-    );
+    return React.createElement('svg', { height: '400px' });
   }
 });
 
 module.exports = PieChart;
 
-},{"nvd3":4,"react":406}],4:[function(require,module,exports){
+},{"nvd3":4,"react":406,"react-dom":250}],4:[function(require,module,exports){
 /* nvd3 version 1.8.1 (https://github.com/novus/nvd3) 2015-06-15 */
 (function(){
 
