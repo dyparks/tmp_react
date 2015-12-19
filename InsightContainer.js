@@ -6,6 +6,7 @@ var Col = Bootsrap.Col;
 var React = require('react');
 var ReactDOM = require('react-dom');
 var PieChart = require('./components/PieChartComponent.js');
+var LineChart = require('./components/LineChartComponent.js');
 
 
 var data = [
@@ -21,7 +22,7 @@ var InsightContainer = React.createClass({
         <Row className="show-grid">
           <Col xs={6} md={4}><h3>Summary</h3><p>Some summary text here.</p></Col>
           <Col xs={6} md={4}><PieChart /></Col>
-          <Col xs={6} md={4}><code>&lt;{'Insert Line chart here.'} /&gt;</code></Col>
+          <Col xs={6} md={4}><LineChart /></Col>
         </Row>
       </Grid>
     );

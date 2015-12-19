@@ -1,177 +1,80 @@
-function createChart(dom, props){
-  var width = props.width;
-  var height = props.height;
-    width = width + 200;
-  var data = props.data;
-  var sum = data.reduce(function(memo, num){ return memo + num.count; }, 0);
-  var chart = d3.select(dom).append('svg').attr('class', 'd3').attr('width', width).attr('height', height)
-        .append("g")
-          .attr("transform", "translate(" + (props.width/2) + "," + (height/2) + ")");
-  var outerRadius = props.width/2.2;
-  var innerRadius = props.width/8;
-  var arc = d3.svg.arc()
-      .outerRadius(outerRadius)
-      .innerRadius(innerRadius);
+var React = require('react');
+var nv = require('nvd3');
 
-  var colors = ['#FD9827', '#DA3B21', '#3669C9', '#1D9524', '#971497'];
-  var pie = d3.layout.pie()
-      .value(function (d) { return d.count; });
+function sinAndCos() {
+  var sin = [],sin2 = [],
+      cos = [];
 
-  var g = chart.selectAll(".arc")
-        .data(pie(data))
-        .enter().append("g")
-        .attr("class", "arc")
-        .on("click", function(d) {
-          alert('you clicked ' + d.data.name)
-        })
-        .on('mouseover', function (d, i) {
-          d3.select(this)
-            .transition()
-            .duration(500)
-            .ease('bounce')
-            .attr('transform', function (d) {
-              var dist = 10;
-              d.midAngle = ((d.endAngle - d.startAngle) / 2) + d.startAngle;
-              var x = Math.sin(d.midAngle) * dist;
-              var y = -Math.cos(d.midAngle) * dist;
-              return 'translate(' + x + ',' + y + ')';
-            });
-          d3.select(this).append("text").style("fill", function(d) { return colors[i]; }).attr("id", "percent")
-          .attr('transform', "translate(0,-5)")
-          .attr("text-anchor", "middle").attr("dy", ".35em").style("font", "bold 15px Arial")
-          .text(function(d) { return (((d.value/sum)*100).toFixed(1) + " %"); });
-          g.filter(function(e) { return e.value != d.value; }).style('opacity',0.5);
-        }).on('mouseout', function (d, i) {
-            d3.select(this)
-            .transition()
-            .duration(500)
-            .ease('bounce')
-            .attr('transform', 'translate(0,0)');
-            d3.select("#percent").remove();
-            g.filter(function(e) { return e.value != d.value; }).style('opacity',1)
-          });
+  //Data is represented as an array of {x,y} pairs.
+  for (var i = 0; i < 100; i++) {
+    sin.push({x: i, y: Math.sin(i/10)});
+    sin2.push({x: i, y: Math.sin(i/10) *0.25 + 0.5});
+    cos.push({x: i, y: .5 * Math.cos(i/10)});
+  }
 
-  g.append("path")
-    .style("fill", function(d, i) { return colors[i]; })
-    .transition().delay(function(d, i) { return i * 400; }).duration(500)
-    .attrTween('d', function(d) {
-         var i = d3.interpolate(d.startAngle, d.endAngle);
-         return function(t) {
-             d.endAngle = i(t);
-           return arc(d);
-         }
-    });
-  var center =
-  g.filter(function(d) { return d.endAngle - d.startAngle > .1; }).append("text").style("fill", "white")
-    .attr('transform', function(d){
-      return "translate(" + arc.centroid(d) + ")";
-    })
-    .attr("text-anchor", "middle").attr("dy", ".35em")
-    .text(function(d) { return d.value; });
+  //Line chart data should be sent as an array of series objects.
+  return [
+    {
+      values: sin,      //values - represents the array of {x,y} data points
+      key: 'Sine Wave', //key  - the name of the series.
+      color: '#ff7f0e'  //color - optional: choose your own line color.
+    },
+    {
+      values: cos,
+      key: 'Cosine Wave',
+      color: '#2ca02c'
+    },
+    {
+      values: sin2,
+      key: 'Another sine wave',
+      color: '#7777ff',
+      area: true      //area - set to true if you want this line to turn into a filled area chart.
+    }
+  ];
+}
 
-    var legend = chart.selectAll(".legend")
-    .data(data)
-    .enter().append("g")
-    .attr("class", "legend")
-    .attr("transform", function (d, i) {
-    return "translate(150," + (-i * 20) + ")";
-    });
+function drawLineChart (elementParent) {
+  nv.addGraph(function() {
+    var line_chart = nv.models.lineChart()
+                  .margin({left: 100})  //Adjust chart margins to give the x-axis some breathing room.
+                  .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+                  .showLegend(false)       //Show the legend, allowing users to turn on/off line series.
+                  .showYAxis(true)        //Show the y-axis
+                  .showXAxis(true)        //Show the x-axis
+    ;
 
-    var rect = legend.append("rect")
-        .attr("width", 18)
-        .attr("height", 18)
-        .style("fill", function(d, i) { return colors[i]; }).style('opacity', 0);
+    line_chart.xAxis     //Chart x-axis settings
+        .axisLabel('Time (ms)')
+        .tickFormat(d3.format(',r'));
 
-    var name = legend.append("text")
-        .attr("x", 24)
-        .attr("y", 12)
-        .text(function (d) {
-          var text = d.name;
-          if(text.length >30){
-            text = text.substring(0,26);
-            text = text + '...';
-          }
-        return text;
-    }).style('opacity', 0);
-    rect.transition().delay(function(d, i) { return i * 400; }).duration(1000).style('opacity',1);
-    name.transition().delay(function(d, i) { return i * 400; }).duration(1000).style('opacity',1);
+    line_chart.yAxis     //Chart y-axis settings
+        .axisLabel('Voltage (v)')
+        .tickFormat(d3.format('.02f'));
 
-};
+    /* Done setting the chart up? Time to render it!*/
+    var myData = sinAndCos();   //You need data...
 
-var PieChart = React.createClass({
-  propTypes: {
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    title: React.PropTypes.string,
-    data: React.PropTypes.array.isRequired,
-  },
+    d3.select('#line-chart svg')    //Select the <svg> element you want to render the chart in.
+        .datum(myData)         //Populate the <svg> element with chart data...
+        .call(line_chart);          //Finally, render the chart!
 
-  getDefaultProps: function() {
-    return {
-      width: 300,
-      height: 350,
-      title: '',
-      Legend: true,
-    };
-  },
+    //Update the chart when window resizes.
+    nv.utils.windowResize(function() { line_chart.update() });
+    return line_chart;
+  });
+}
 
-  render: function() {
-    return (
-      <div>
-      </div>
-    );
-  },
+var LineChart = React.createClass  ({
   componentDidMount: function() {
-    var dom =  this.getDOMNode();
-    createChart(dom, this.props);
-  },
-  shouldComponentUpdate: function() {
-      var dom =  this.getDOMNode();
-      createChart(dom, this.props);
-      return false;
-  }
-});
-
-var HighchartsBar = React.createClass({displayName: 'HighchartsBar',
-  renderChart: function() {
-        var node = this.refs.chartNode.getDOMNode();
-        var dataSeries = [[0, 3], [4, 8], [8, 5], [9, 13]];
-        jQuery(function ($) {
-        $(node).highcharts({
-            chart: {
-              plotBackgroundColor: '#EFEFEF',
-                height:300,
-                type: 'bar'
-            },
-            series: dataSeries
-        });
-    });
-
-  },
-  componentDidUpdate: function() {
-    this.renderChart(); // after the component props are updated, render the chart into the DOM node
+    drawLineChart('line-chart');
   },
   render: function() {
     return (
-      React.DOM.div({className: "chart", ref: "chartNode"})
-    );
-  }
-});
-
-var data = [
-    {name: "New Users", count: 491900},
-    {name: "Purchase Users", count: 34300}
-];
-
-var JamesLin = React.createClass({
-  render: function() {
-    return (
-      <div>
-        <PieChart data={data}/>
-        <HighchartsBar />
+      <div id='line-chart'>
+        <svg height='400px'></svg>
       </div>
     );
   }
 });
 
-ReactDOM.render(<JamesLin />, document.getElementById('insight_container'));
+module.exports = LineChart;

@@ -43,7 +43,7 @@ function drawPieChart (elementParent) {
     var pieChart = nv.models.pieChart()
       .x(function(d) { return d.label })
       .y(function(d) { return d.value })
-      .showLabels(true);
+      .showLabels(false);
 
     d3.select("#pie-chart svg")
         .datum(exampleData())
@@ -70,7 +70,7 @@ var PieChart = React.createClass  ({
   render: function() {
     return (
       <div id='pie-chart'>
-        <svg></svg>
+        <svg height='400px'></svg>
       </div>
     );
   }
