@@ -44,9 +44,9 @@ var pieChart = nv.models.pieChart()
       .y(function(d) { return d.value })
       .showLabels(false);
 
-function drawPieChart (elementParent, data) {
+function drawPieChart (node, data) {
   nv.addGraph(function() {
-    d3.select("#pie-chart svg")
+    d3.select(node)
         .datum(data)
         .transition().duration(350)
         .call(pieChart);
@@ -54,7 +54,7 @@ function drawPieChart (elementParent, data) {
   });
 }
 
-function updatePieChart (elementParent, data) {
+function updatePieChart (node, data) {
   d3.select(ReactDOM.findDOMNode())
     .datum(data)
     .call(pieChart);
@@ -65,7 +65,7 @@ var PieChart = React.createClass  ({
     drawPieChart(ReactDOM.findDOMNode(this), this.props.data);
   },
   componentDidUpdate: function() {
-    updatePieChart('pie-chart', this.props.data);
+    updatePieChart(ReactDOM.findDOMNode(this), this.props.data);
   },
   render: function() {
     return (

@@ -34,7 +34,7 @@ function sinAndCos() {
   ];
 }
 
-function drawLineChart (elementParent, data) {
+function drawLineChart (node, data) {
   nv.addGraph(function() {
     var line_chart = nv.models.lineChart()
                   .margin({left: 100})  //Adjust chart margins to give the x-axis some breathing room.

@@ -17,11 +17,11 @@ var data = [
 ];
 
 var InsightContainer = React.createClass({
-  
+
   getInitialState: function() {
     return {
       SegmentData: [],
-      LineData: [],     
+      LineData: [],
     };
   },
 
@@ -36,7 +36,8 @@ var InsightContainer = React.createClass({
           var object = results[i];
           data[object.get('a')] = object.get('a_size');
           data[object.get('b')] = object.get('b_size');
-        } 
+        }
+        console.log(data)
         here.setState({
           SegmentData: [data]
         })
