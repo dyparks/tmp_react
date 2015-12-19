@@ -1,0 +1,29 @@
+{
+  "name": "tmp_react",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "InsightContainer.js",
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "d3": "^3.5.12",
+    "nvd3": "^1.8.1",
+    "react": "^0.14.3",
+    "react-bootstrap": "^0.28.1",
+    "react-dom": "^0.14.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dyparks/tmp_react.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dyparks/tmp_react/issues"
+  },
+  "homepage": "https://github.com/dyparks/tmp_react#readme"
+}

@@ -61,7 +61,7 @@ function createChart(dom, props){
            return arc(d);
          }
     });
-  var center = 
+  var center =
   g.filter(function(d) { return d.endAngle - d.startAngle > .1; }).append("text").style("fill", "white")
     .attr('transform', function(d){
       return "translate(" + arc.centroid(d) + ")";
@@ -95,7 +95,7 @@ function createChart(dom, props){
     }).style('opacity', 0);
     rect.transition().delay(function(d, i) { return i * 400; }).duration(1000).style('opacity',1);
     name.transition().delay(function(d, i) { return i * 400; }).duration(1000).style('opacity',1);
- 
+
 };
 
 var PieChart = React.createClass({
@@ -146,7 +146,7 @@ var HighchartsBar = React.createClass({displayName: 'HighchartsBar',
             series: dataSeries
         });
     });
- 
+
   },
   componentDidUpdate: function() {
     this.renderChart(); // after the component props are updated, render the chart into the DOM node
@@ -174,4 +174,4 @@ var JamesLin = React.createClass({
   }
 });
 
-ReactDOM.render(<JamesLin />, document.body);
+ReactDOM.render(<JamesLin />, document.getElementById('insight_container'));

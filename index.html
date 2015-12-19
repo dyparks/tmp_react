@@ -1,40 +1,14 @@
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.11/d3.js"></script>
-  <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-  <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.min.js"></script>
-  <script src="https://cdn.rawgit.com/esbullington/react-d3/fff663d549c9492ecf7da3a4108718b04630432a/dist/public/js/react-d3.min.js"></script>
-  <style>
-        body {
-          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-          margin: auto;
-          position: relative;
-          width: 960px;
-        }
-
-        form {
-          position: absolute;
-          right: 10px;
-          top: 10px;
-        }
-
-        .node {
-          border: solid 1px white;
-          font: 10px sans-serif;
-          line-height: 12px;
-          overflow: hidden;
-          position: absolute;
-          text-indent: 2px;
-
-        #placeholder { width: 450px; height: 200px; }
-        }
-  </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.11/d3.js"></script>
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.2/jquery.flot.min.js"></script>
+    <script src="https://cdn.rawgit.com/esbullington/react-d3/fff663d549c9492ecf7da3a4108718b04630432a/dist/public/js/react-d3.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/index.css">
 </head>
+
 <body>
-  <div id="insight_container">
-    <!-- This element's contents will be replaced with your component. -->
-  </div>
-  <script type='text/babel' src="LineChartComponent.js"></script>
+    <div id="insight_container"></div>
+    <script src="bundle.js"></script>
 </body>
