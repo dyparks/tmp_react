@@ -62,13 +62,17 @@ var InsightContainer = React.createClass({
         for (var i = 0; i < results.length; i++) {
           var data = {};
           var object = results[i];
-          data[i] = object.get('approximate_count');
+          data['x'] = i
+          data['y'] = object.get('approximate_count');
           data_list.push(data);
         }
         here.setState({
-          LineData: data_list
+          LineData: [{ 
+            values: data_list,
+            key: 'JAMES LIN', 
+            color:'#2ca02c'
+          }]
         })
-        console.log(data_list);
       },
       error: function(error) {
         alert("Error: " + error.code + " " + error.message);
