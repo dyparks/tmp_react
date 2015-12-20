@@ -25,58 +25,52 @@ var InsightContainer = React.createClass({
     };
   },
 
-  componentWillMount: function() {
-    var Strategy = Parse.Object.extend("strategies");
-    var query = new Parse.Query(Strategy);
-    var here = this;
-    query.find({
-      success: function(results) {
-        data = [];
-        for (var i = 0; i < results.length; i++) {
-          var object = results[i];
-          entry_a = {}
-          entry_b = {}
-          entry_a["label"] = object.get('a');
-          entry_a["value"] = object.get('a_size');
-          entry_b["label"] = object.get('b');
-          entry_b["value"] = object.get('b_size');
-          data.push(entry_a);
-          data.push(entry_b);
-        }
-        here.setState({
-          SegmentData: data
-        })
-      },
-      error: function(error) {
-        alert("Error: " + error.code + " " + error.message);
+  convertSegmentData: function(results) {
+    data = [];
+    var object = results[0];
+    entry_a = {};
+    entry_b = {};
+    entry_a["label"] = object.get('a');
+    entry_a["value"] = object.get('a_size');
+    entry_b["label"] = object.get('b');
+    entry_b["value"] = object.get('b_size');
+    data.push(entry_a);
+    data.push(entry_b);
+    return data;
+  },
+ 
+  convertLineData: function(results) {
+    var data_list = [];
+      for (var i = 0; i < results.length; i++) {
+        var data = {};
+        var object = results[i];
+        data['x'] = i
+        data['y'] = object.get('approximate_count');
+        data_list.push(data);
       }
-    });
+    return data_list;
+  },
 
-    var Audiences = Parse.Object.extend("audiences");
-    var query = new Parse.Query(Audiences);
-    var here = this;
-    query.equalTo('name', 'PURCHASE_WAU');
-    query.find({
-      success: function(results) {
-        var data_list = [];
-        for (var i = 0; i < results.length; i++) {
-          var data = {};
-          var object = results[i];
-          data['x'] = i
-          data['y'] = object.get('approximate_count');
-          data_list.push(data);
-        }
-        here.setState({
-          LineData: [{ 
-            values: data_list,
-            key: 'JAMES LIN', 
-            color:'#2ca02c'
-          }]
-        })
-      },
-      error: function(error) {
-        alert("Error: " + error.code + " " + error.message);
-      }
+  componentWillMount: function() {
+    var strategyQuery = new Parse.Query('strategies');
+    var here = this; 
+    strategyQuery.find().then(function(segment_results) {
+      data = here.convertSegmentData(segment_results);
+      here.setState({
+        SegmentData: data
+      })
+      var perf = new Parse.Query('audiences');
+      perf.equalTo('name', data[1]['label']);
+      return perf.find();
+    }).then(function(results) {
+      data = here.convertLineData(results); 
+      here.setState({
+        LineData: [{
+          values: data,
+          key: 'JAMES LIN',
+          color:'#2ca02c'
+        }]
+      })
     });
   },
 
