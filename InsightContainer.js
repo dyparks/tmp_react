@@ -7,14 +7,11 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var PieChart = require('./components/PieChartComponent.js');
 var LineChart = require('./components/LineChartComponent.js');
+var BarChart = require('./components/BarChartComponent.js');
+var StackedAreaChart = require('./components/StackedAreaComponent.js');
 var Parse = require('parse').Parse;
 
 Parse.initialize("MKlW3fNIyL8vANQwzz6d2bgaHv7mW9YMb9M0bCoO", "Iy5f8ZfxxMSoYPlBVYUonN3tyjW0QlPi9r5Uwt0A");
-
-var data = [
-    {name: "New Users", count: 491900},
-    {name: "Purchase Users", count: 34300}
-];
 
 var InsightContainer = React.createClass({
 
@@ -22,6 +19,7 @@ var InsightContainer = React.createClass({
     return {
       SegmentData: [],
       LineData: [],
+      BarData: [],
     };
   },
 
@@ -51,6 +49,16 @@ var InsightContainer = React.createClass({
     return data_list;
   },
 
+  convertBarData: function(results) {
+    data = {};
+    data['title'] = 'Purchase';
+    data['subtitle'] = 'cost per purchase';
+    data['ranges'] = [1511, 9000, 13154]; //clicks, reach, total_audience
+    data['measures'] = [310]; //conversions
+    data['markers'] =  [10000]; //low bar
+    return data;
+  },
+
   componentWillMount: function() {
     var strategyQuery = new Parse.Query('strategies');
     var here = this; 
@@ -61,12 +69,14 @@ var InsightContainer = React.createClass({
       })
       var perf = new Parse.Query('audiences');
       perf.equalTo('name', data[1]['label']);
+      perf.ascending('createdAt');
       return perf.find();
     }).then(function(results) {
-      data = here.convertLineData(results); 
+      data1 = here.convertLineData(results); 
       here.setState({
+        BarData: here.convertBarData(),
         LineData: [{
-          values: data,
+          values: data1,
           key: 'JAMES LIN',
           color:'#2ca02c'
         }]
@@ -75,14 +85,29 @@ var InsightContainer = React.createClass({
   },
 
   render: function() {
-    return (
-      <Grid>
-        <Row className="show-grid">
-          <Col xs={6} md={4}><h3>Summary</h3><p>Some summary text here.</p></Col>
-          <Col xs={6} md={4}><PieChart data={this.state.SegmentData} /></Col>
-          <Col xs={6} md={4}><LineChart data={this.state.LineData} /></Col>
+  tdata = [
+  {"key":"Total Growth","values":[["2015-12-11",10300],["2015-12-12",10400],["2015-12-13",10400],["2015-12-14",10666.66667],["2015-12-16",12800],["2015-12-17",13700],["2015-12-18",14100],["2015-12-19",14675],["2015-12-20",15000],["2015-12-21",15300]]},  {"key":"Ad Spend","values":[["2015-12-11",0], ["2015-12-12",3],["2015-12-13",5],["2015-12-14",10],["2015-12-16",485],["2015-12-17",631],["2015-12-18",508],["2015-12-19",515],["2015-12-20",758],["2015-12-21",800]]}
+  ,{"key":"Ad Spend", "values": [
+  ["2015-12-11",0],
+  ["2015-12-12",0],
+  ["2015-12-13",0],
+  ["2015-12-14",0],
+  ["2015-12-16",50000],
+  ["2015-12-17",50000],
+  ["2015-12-18",50000],
+  ["2015-12-19",49460],
+  ["2015-12-20",200000],
+  ["2015-12-21",117073]
+]} 
+ ];
+  return (
+        <Row>
+          <div className="row-height">
+                <Col xs={6} md={1}><h3>Summary</h3><p>Some summary text here.</p></Col>
+                <Col xs={6} md={6}><StackedAreaChart data={tdata} /></Col>
+                <Col xs={6} md={3}><LineChart data={this.state.LineData} /></Col>
+          </div>
         </Row>
-      </Grid>
     );
   }
 });
