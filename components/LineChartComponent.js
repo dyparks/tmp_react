@@ -4,7 +4,7 @@ var nv = require('nvd3');
 
 var line_chart = nv.models.lineChart()
 	  .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
-	  .showLegend(false)       //Show the legend, allowing users to turn on/off line series.
+	  .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
 	  .showYAxis(true)        //Show the y-axis
 	  .showXAxis(false)        //Show the x-axis
 ;
@@ -44,7 +44,7 @@ var LineChart = React.createClass  ({
   },
   render: function() {
     return (
-      <svg height='400px'></svg>
+      <svg viewBox="0 0 522 200"></svg>
     );
   }
 });

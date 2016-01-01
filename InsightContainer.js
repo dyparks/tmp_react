@@ -5,6 +5,7 @@ var Row = Bootsrap.Row;
 var Col = Bootsrap.Col;
 var React = require('react');
 var ReactDOM = require('react-dom');
+var ChartContainer = require('./components/ChartContainerComponent.js');
 var PieChart = require('./components/PieChartComponent.js');
 var LineChart = require('./components/LineChartComponent.js');
 var BarChart = require('./components/BarChartComponent.js');
@@ -36,7 +37,7 @@ var InsightContainer = React.createClass({
     data.push(entry_b);
     return data;
   },
- 
+
   convertLineData: function(results) {
     var data_list = [];
       for (var i = 0; i < results.length; i++) {
@@ -61,7 +62,7 @@ var InsightContainer = React.createClass({
 
   componentWillMount: function() {
     var strategyQuery = new Parse.Query('strategies');
-    var here = this; 
+    var here = this;
     strategyQuery.find().then(function(segment_results) {
       data = here.convertSegmentData(segment_results);
       here.setState({
@@ -72,7 +73,7 @@ var InsightContainer = React.createClass({
       perf.ascending('createdAt');
       return perf.find();
     }).then(function(results) {
-      data1 = here.convertLineData(results); 
+      data1 = here.convertLineData(results);
       here.setState({
         BarData: here.convertBarData(),
         LineData: [{
@@ -85,6 +86,7 @@ var InsightContainer = React.createClass({
   },
 
   render: function() {
+  console.log("123123132")
   tdata = [
   {"key":"Total Growth","values":[["2015-12-11",10300],["2015-12-12",10400],["2015-12-13",10400],["2015-12-14",10666.66667],["2015-12-16",12800],["2015-12-17",13700],["2015-12-18",14100],["2015-12-19",14675],["2015-12-20",15000],["2015-12-21",15300]]},  {"key":"Ad Spend","values":[["2015-12-11",0], ["2015-12-12",3],["2015-12-13",5],["2015-12-14",10],["2015-12-16",485],["2015-12-17",631],["2015-12-18",508],["2015-12-19",515],["2015-12-20",758],["2015-12-21",800]]}
   ,{"key":"Ad Spend", "values": [
@@ -98,15 +100,13 @@ var InsightContainer = React.createClass({
   ["2015-12-19",49460],
   ["2015-12-20",200000],
   ["2015-12-21",117073]
-]} 
+]}
  ];
   return (
         <Row>
-          <div className="row-height">
-                <Col xs={6} md={1}><h3>Summary</h3><p>Some summary text here.</p></Col>
-                <Col xs={6} md={6}><StackedAreaChart data={tdata} /></Col>
-                <Col xs={6} md={3}><LineChart data={this.state.LineData} /></Col>
-          </div>
+          <ChartContainer title="Chart 1" description="discription1"> <LineChart data={this.state.LineData} /></ChartContainer>
+          <ChartContainer title="Chart 2" description="discription2"> <LineChart data={this.state.LineData} /></ChartContainer>
+          <ChartContainer title="Chart 3" description="discription3"> <LineChart data={this.state.LineData} /></ChartContainer>
         </Row>
     );
   }
