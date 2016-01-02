@@ -49,11 +49,11 @@ var barData = {
 };
 
 
-var FlotChart = React.createClass({
-    displayName: 'FlotChart',
+var BarChart = React.createClass({
+    displayName: 'BarChart',
     renderChart: function() {
         var
-            chartDiv = this.refs.chartDiv,
+            chartDiv = this.refs.barChartDiv,
             chartOptions = this.props.options;
             chartData = this.props.model,
 
@@ -77,7 +77,7 @@ var FlotChart = React.createClass({
     render: function() {
         return React.DOM.div({
             className: "flot-chart-content",
-            ref: "chartDiv"
+            ref: "barChartDiv",
         });
     }
 });
