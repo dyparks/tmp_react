@@ -11,6 +11,7 @@ var LineChart = require('./components1/LineChartComponent');
 var DiscreteChart = require('./components1/DiscreteChartComponent');
 var BulletChart = require('./components1/BulletChartComponent');
 var LineBarChart = require('./components1/LineBarChartComponent');
+var FlotChart = require('./components1/FlotChartComponent');
 
 var Parse = require('parse').Parse;
 
@@ -91,16 +92,7 @@ var InsightContainer = React.createClass({
     return (
         <Row>
           <ChartContainer title="Chart 1" description="discription1"> 
-            <LineBarChart />
-          </ChartContainer>
-          <ChartContainer title="Chart 2" description="discription2"> 
-            <LineChart />
-          </ChartContainer>
-          <ChartContainer title="Chart 3" description="discription3"> 
-            <DiscreteChart />
-          </ChartContainer>
-          <ChartContainer title="Chart 4" description="discription4">
-            <BulletChart />
+            <FlotChart />
           </ChartContainer>
         </Row>
     );

@@ -41,7 +41,6 @@ var discrete_chart = nv.models.discreteBarChart().x(function (d) {
 .y(function (d) {
   return d.value;
 }).staggerLabels(true) //Too many bars and not enough room? Try staggering labels.
-.tooltips(false) //Don't show tooltips
 .duration(350).showValues(true) //...instead, show the bar value right on top of each bar.
 ;
 
