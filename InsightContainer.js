@@ -5,11 +5,13 @@ var Row = Bootsrap.Row;
 var Col = Bootsrap.Col;
 var React = require('react');
 var ReactDOM = require('react-dom');
+
 var ChartContainer = require('./components/ChartContainerComponent.js');
-var PieChart = require('./components/PieChartComponent.js');
-var LineChart = require('./components/LineChartComponent.js');
-var BarChart = require('./components/BarChartComponent.js');
-var StackedAreaChart = require('./components/StackedAreaComponent.js');
+var LineChart = require('./components1/LineChartComponent');
+var DiscreteChart = require('./components1/DiscreteChartComponent');
+var BulletChart = require('./components1/BulletChartComponent');
+var LineBarChart = require('./components1/LineBarChartComponent');
+
 var Parse = require('parse').Parse;
 
 Parse.initialize("MKlW3fNIyL8vANQwzz6d2bgaHv7mW9YMb9M0bCoO", "Iy5f8ZfxxMSoYPlBVYUonN3tyjW0QlPi9r5Uwt0A");
@@ -86,27 +88,20 @@ var InsightContainer = React.createClass({
   },
 
   render: function() {
-  console.log("123123132")
-  tdata = [
-  {"key":"Total Growth","values":[["2015-12-11",10300],["2015-12-12",10400],["2015-12-13",10400],["2015-12-14",10666.66667],["2015-12-16",12800],["2015-12-17",13700],["2015-12-18",14100],["2015-12-19",14675],["2015-12-20",15000],["2015-12-21",15300]]},  {"key":"Ad Spend","values":[["2015-12-11",0], ["2015-12-12",3],["2015-12-13",5],["2015-12-14",10],["2015-12-16",485],["2015-12-17",631],["2015-12-18",508],["2015-12-19",515],["2015-12-20",758],["2015-12-21",800]]}
-  ,{"key":"Ad Spend", "values": [
-  ["2015-12-11",0],
-  ["2015-12-12",0],
-  ["2015-12-13",0],
-  ["2015-12-14",0],
-  ["2015-12-16",50000],
-  ["2015-12-17",50000],
-  ["2015-12-18",50000],
-  ["2015-12-19",49460],
-  ["2015-12-20",200000],
-  ["2015-12-21",117073]
-]}
- ];
-  return (
+    return (
         <Row>
-          <ChartContainer title="Chart 1" description="discription1"> <LineChart data={this.state.LineData} /></ChartContainer>
-          <ChartContainer title="Chart 2" description="discription2"> <LineChart data={this.state.LineData} /></ChartContainer>
-          <ChartContainer title="Chart 3" description="discription3"> <LineChart data={this.state.LineData} /></ChartContainer>
+          <ChartContainer title="Chart 1" description="discription1"> 
+            <LineBarChart />
+          </ChartContainer>
+          <ChartContainer title="Chart 2" description="discription2"> 
+            <LineChart />
+          </ChartContainer>
+          <ChartContainer title="Chart 3" description="discription3"> 
+            <DiscreteChart />
+          </ChartContainer>
+          <ChartContainer title="Chart 4" description="discription4">
+            <BulletChart />
+          </ChartContainer>
         </Row>
     );
   }
