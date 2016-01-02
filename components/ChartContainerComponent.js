@@ -50,9 +50,7 @@ var ChartContainer = React.createClass  ({
               </div>
               <div className="ibox-content">
                   <div className="flot-chart">
-                      <div className="flot-chart-content">
-                         {this.props.children}
-                      </div>
+                      {this.props.children}
                   </div>
               </div>
           </div>
